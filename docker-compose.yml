@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  admin-backend:
+    build: ./backend
+    container_name: est-admin-backend
+    environment:
+      - CASSANDRA_HOSTS=${CASSANDRA_HOSTS}
+      - CASSANDRA_PORT=${CASSANDRA_PORT}
+      - CASSANDRA_KEYSPACE=${CASSANDRA_KEYSPACE}
+      - KEYCLOAK_URL=${KEYCLOAK_URL}
+      - KEYCLOAK_REALM=${KEYCLOAK_REALM}
+      - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
+      - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET}
+    ports:
+      - "8001:8000"
+    depends_on:
+      admin-cassandra:
+        condition: service_healthy
+    networks:
+      - est-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  admin-cassandra:
+    image: cassandra:5.0.4
+    container_name: admin-cassandra
+    hostname: admin-cassandra
+    ports:
+      - "9043:9042"
+    volumes:
+      - admin_cassandra_data:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=admin-Cluster
+      - CASSANDRA_DC=dc2
+      - CASSANDRA_SEEDS=admin-cassandra
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=100M
+    networks:
+      - est-network
+    healthcheck:
+      test: ["CMD", "cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", "DESCRIBE KEYSPACES"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
+  # cassandra:
+  #   image: cassandra:5.0.4
+  #   container_name: admin-cassandra
+  #   ports:
+  #     - 9043:9042
+  #   volumes:
+  #     - cassandra_data:/var/lib/cassandra
+  #   environment:
+  #     - CASSANDRA_CLUSTER_NAME=admin-Cluster
+  #     - CASSANDRA_DC=dc2
+  #   networks:
+  #     - est-network
+  #   healthcheck:
+  #     test: ["CMD", "cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", "DESCRIBE KEYSPACES"]
+  #     interval: 40s
+  #     timeout: 50s
+  #     retries: 5
+
+networks:
+  est-network:
+    external: true
+
+volumes:
+  admin_cassandra_data:
+  ent_cassandra_data:

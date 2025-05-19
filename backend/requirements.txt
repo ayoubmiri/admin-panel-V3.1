@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+cassandra-driver
+python-jose
+python-multipart
+passlib
+pydantic
+pydantic[email]
+pydantic-settings
+# cassandra-cqlengine
+python-keycloak==2.15.0
+httpx==0.23.3
