@@ -5,7 +5,7 @@ import os
 
 router = APIRouter()
 
-KEYCLOAK_URL = os.getenv("KEYCLOAK_SERVER_URL")
+KEYCLOAK_URL = os.getenv("KEYCLOAK_URL")
 REALM = os.getenv("KEYCLOAK_REALM")
 CLIENT_ID = os.getenv("KEYCLOAK_CLIENT_ID")
 CLIENT_SECRET = os.getenv("KEYCLOAK_CLIENT_SECRET")  # if confidential client
