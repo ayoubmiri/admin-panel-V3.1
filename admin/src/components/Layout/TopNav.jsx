@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // Import context
 
 const TopNav = ({ title, openMobileSidebar }) => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { logout } = useAuth(); // Use context logout
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
+    logout(); // Already handles navigate to /login
   };
 
   return (
@@ -22,13 +23,23 @@ const TopNav = ({ title, openMobileSidebar }) => {
           </button>
           <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
         </div>
+
         <div className="flex items-center space-x-4">
-          <div className="relative">
-            <button className="text-gray-500 hover:text-gray-700">
-              <i className="fas fa-bell"></i>
-              <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
-            </button>
-          </div>
+          {/* Notification bell */}
+          <button className="relative text-gray-500 hover:text-gray-700">
+            <i className="fas fa-bell"></i>
+            <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+          </button>
+
+          {/* Visible Logout button */}
+          <button 
+            onClick={handleLogout}
+            className="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+          >
+            Logout
+          </button>
+
+          {/* Dropdown User Menu */}
           <div className="relative">
             <button 
               onClick={() => setUserMenuOpen(!userMenuOpen)} 
@@ -38,32 +49,30 @@ const TopNav = ({ title, openMobileSidebar }) => {
               <span className="hidden md:inline">Admin User</span>
               <i className="fas fa-chevron-down ml-1 text-xs"></i>
             </button>
+
             {userMenuOpen && (
               <div 
                 className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10"
                 onClick={(e) => e.stopPropagation()}
               >
-                <a 
-                  href="#" 
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                <button 
                   onClick={() => navigate('/profile')}
+                  className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Profile
-                </a>
-                <a 
-                  href="#" 
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                </button>
+                <button 
                   onClick={() => navigate('/settings')}
+                  className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Settings
-                </a>
-                <a 
-                  href="#" 
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                </button>
+                <button 
                   onClick={handleLogout}
+                  className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Logout
-                </a>
+                </button>
               </div>
             )}
           </div>

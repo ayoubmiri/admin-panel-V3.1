@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       const tokens = await authLogin(username, password);
       const userData = await getCurrentUser();
       setUser(userData);
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       throw error;
     }

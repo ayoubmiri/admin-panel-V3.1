@@ -1,10 +1,23 @@
 // src/components/Layout/Layout.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBell } from 'react-icons/fa';
-import { FaTachometerAlt, FaUsers, FaChalkboardTeacher, FaBullhorn, FaBook, FaCalendarAlt, FaFileAlt, FaCog } from 'react-icons/fa';
+import {
+  FaBell,
+  FaSignOutAlt,
+  FaTachometerAlt,
+  FaUsers,
+  FaChalkboardTeacher,
+  FaBullhorn,
+  FaBook,
+  FaCalendarAlt,
+  FaFileAlt,
+  FaCog
+} from 'react-icons/fa';
+import { useAuth } from '../../contexts/AuthContext'; // Adjust this path if needed
 
 const Layout = ({ children }) => {
+  const { logout } = useAuth(); // Get logout from your auth context
+
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
@@ -12,8 +25,7 @@ const Layout = ({ children }) => {
   const toggleMobileSidebar = () => setMobileSidebarOpen(!mobileSidebarOpen);
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    window.location.href = '/login';
+    logout(); // Calls your auth context logout function
   };
 
   const navItems = [
@@ -49,6 +61,15 @@ const Layout = ({ children }) => {
               {!sidebarCollapsed && <span>{item.text}</span>}
             </Link>
           ))}
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700 mt-6 focus:outline-none"
+          >
+            <FaSignOutAlt className="mr-3" />
+            {!sidebarCollapsed && <span>Logout</span>}
+          </button>
         </nav>
       </div>
 
@@ -61,7 +82,7 @@ const Layout = ({ children }) => {
               ☰
             </button>
             <div className="flex items-center space-x-4">
-              <button className="text-gray-500 hover:text-gray-700">
+              <button className="text-gray-500 hover:text-gray-700" aria-label="Notifications">
                 <span className="relative">
                   <FaBell />
                   <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>

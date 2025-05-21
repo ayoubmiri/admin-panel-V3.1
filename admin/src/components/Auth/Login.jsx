@@ -1,28 +1,32 @@
-// src/components/Auth/Login.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/authService';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { user, login } = useAuth();
   const navigate = useNavigate();
+
+  // If already logged in, redirect away from login
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
+      // Use context login, which updates user state and navigates
       await login(username, password);
-      navigate('/dashboard'); // Redirect to dashboard after login
+      // No need to navigate here; AuthContext handles navigation after login
     } catch (err) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError('Invalid credentials. Please try again.');
-      }
+      setError(
+        err.response?.data?.message || 'Invalid credentials. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
@@ -55,7 +59,7 @@ const Login = () => {
               type="text"
               required
               disabled={loading}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -73,7 +77,7 @@ const Login = () => {
               type="password"
               required
               disabled={loading}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -82,9 +86,9 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+              className={`w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white ${
                 loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+              }`}
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
