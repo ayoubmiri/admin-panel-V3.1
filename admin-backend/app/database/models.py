@@ -112,6 +112,7 @@ class Teacher(BaseModel):
 
 # TeacherElementAssignment table
 class TeacherElementAssignment(Model):
+    __keyspace__ = settings.CASSANDRA_KEYSPACE
     __table_name__ = 'teacher_element_assignments'
     teacher_id = columns.UUID(partition_key=True)
     filiere_id = columns.UUID(primary_key=True)
