@@ -284,7 +284,10 @@ SCHEMA_INDEXES = [
     "CREATE INDEX IF NOT EXISTS teachers_email_idx ON teachers (email)",
     "CREATE INDEX IF NOT EXISTS teacher_element_assignments_class_idx ON teacher_element_assignments (class_id)",
     "CREATE INDEX IF NOT EXISTS students_type_idx ON students (student_type)"
+
 ]
+# "CREATE INDEX IF NOT EXISTS classes_name_idx ON classes (name)"
+
 
 def init_cassandra():
     global _session

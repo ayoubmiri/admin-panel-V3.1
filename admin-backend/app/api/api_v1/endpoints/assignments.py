@@ -7,7 +7,7 @@ from app.schemas.assignments import (
 )
 from app.services import assignments as service
 
-router = APIRouter(prefix="/assignments", tags=["Assignments"])
+router = APIRouter()
 
 @router.post("/", response_model=TeacherElementAssignmentSchema, status_code=status.HTTP_201_CREATED)
 def create_assignment(data: TeacherElementAssignmentCreate):

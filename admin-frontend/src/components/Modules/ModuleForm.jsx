@@ -1,19 +1,18 @@
-// src/components/Filiere/FiliereForm.jsx
+// src/components/Module/ModuleForm.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getFiliereById, createFiliere, updateFiliere } from '../../services/filiereService';
-import { getTeachers } from '../../services/teacherService';
+import { getModuleById, createModule, updateModule } from '../../services/moduleService';
+import { getFilieres } from '../../services/filiereService';
 
-const FiliereForm = () => {
+const ModuleForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [teachers, setTeachers] = useState([]);
+  const [filieres, setFilieres] = useState([]);
   const [formData, setFormData] = useState({
     code: '',
     name: '',
-    description: '',
-    duration: '',
-    coordinator_id: '',
+    filiere_id: '',
+    semester: '1',
     status: 'active'
   });
   const [loading, setLoading] = useState(true);
@@ -22,18 +21,17 @@ const FiliereForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teachersData = await getTeachers();
-        setTeachers(teachersData);
+        const filieresData = await getFilieres();
+        setFilieres(filieresData);
         
         if (id) {
-          const filiereData = await getFiliereById(id);
+          const moduleData = await getModuleById(id);
           setFormData({
-            code: filiereData.code,
-            name: filiereData.name,
-            description: filiereData.description,
-            duration: filiereData.duration,
-            coordinator_id: filiereData.coordinator_id,
-            status: filiereData.status
+            code: moduleData.code,
+            name: moduleData.name,
+            filiere_id: moduleData.filiere_id,
+            semester: moduleData.semester,
+            status: moduleData.status
           });
         }
       } catch (error) {
@@ -61,7 +59,7 @@ const FiliereForm = () => {
     const newErrors = {};
     if (!formData.code) newErrors.code = 'Code is required';
     if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.duration) newErrors.duration = 'Duration is required';
+    if (!formData.filiere_id) newErrors.filiere_id = 'Filiere is required';
     
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
@@ -69,14 +67,14 @@ const FiliereForm = () => {
     try {
       setLoading(true);
       if (id) {
-        await updateFiliere(id, formData);
+        await updateModule(id, formData);
       } else {
-        await createFiliere(formData);
+        await createModule(formData);
       }
-      navigate('/filieres');
+      navigate('/modules');
     } catch (error) {
-      console.error('Error saving filiere:', error);
-      setErrors({ submit: 'Failed to save filiere. Please try again.' });
+      console.error('Error saving module:', error);
+      setErrors({ submit: 'Failed to save module. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -89,7 +87,7 @@ const FiliereForm = () => {
   return (
     <div className="bg-white rounded-lg shadow mb-6">
       <div className="p-4 border-b">
-        <h2 className="font-semibold text-lg">{id ? 'Edit Filiere' : 'Add New Filiere'}</h2>
+        <h2 className="font-semibold text-lg">{id ? 'Edit Module' : 'Add New Module'}</h2>
       </div>
       
       <div className="p-6">
@@ -131,50 +129,42 @@ const FiliereForm = () => {
               {errors.name && <p className="text-red-500 text-xs italic">{errors.name}</p>}
             </div>
             
-            <div className="md:col-span-2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
-                Description
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="filiere_id">
+                Filiere
               </label>
-              <textarea
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="description"
-                name="description"
-                rows="3"
-                value={formData.description}
+              <select
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.filiere_id ? 'border-red-500' : ''}`}
+                id="filiere_id"
+                name="filiere_id"
+                value={formData.filiere_id}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Select Filiere</option>
+                {filieres.map((filiere) => (
+                  <option key={filiere.id} value={filiere.id}>{filiere.name}</option>
+                ))}
+              </select>
+              {errors.filiere_id && <p className="text-red-500 text-xs italic">{errors.filiere_id}</p>}
             </div>
             
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="duration">
-                Duration
-              </label>
-              <input
-                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.duration ? 'border-red-500' : ''}`}
-                id="duration"
-                name="duration"
-                type="text"
-                value={formData.duration}
-                onChange={handleChange}
-              />
-              {errors.duration && <p className="text-red-500 text-xs italic">{errors.duration}</p>}
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="coordinator_id">
-                Coordinator
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="semester">
+                Semester
               </label>
               <select
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="coordinator_id"
-                name="coordinator_id"
-                value={formData.coordinator_id}
+                id="semester"
+                name="semester"
+                value={formData.semester}
                 onChange={handleChange}
               >
-                <option value="">Select Coordinator</option>
-                {teachers.map((teacher) => (
-                  <option key={teacher.id} value={teacher.id}>{teacher.name}</option>
-                ))}
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
               </select>
             </div>
             
@@ -198,7 +188,7 @@ const FiliereForm = () => {
           <div className="mt-6 flex justify-end">
             <button
               type="button"
-              onClick={() => navigate('/filieres')}
+              onClick={() => navigate('/modules')}
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md mr-2 hover:bg-gray-300"
             >
               Cancel
@@ -217,4 +207,4 @@ const FiliereForm = () => {
   );
 };
 
-export default FiliereForm;
+export default ModuleForm;

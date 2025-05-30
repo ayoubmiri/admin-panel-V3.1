@@ -1,6 +1,6 @@
 import api from './api';
 
-export const getTeachers = async (page = 1, limit = 10, search = '') => {
+export const getTeachers = async (page = 1, limit = 100, search = '') => {
   try {
     const response = await api.get('/teachers', {
       params: { page, limit, search }

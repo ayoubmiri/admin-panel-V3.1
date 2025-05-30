@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getClasses, deleteClass, getClassesByFiliere } from '../../services/classService';
+import { getClasses, deleteClass,getClassById } from '../../services/classService';
 import { getFilieres } from '../../services/filiereService';
 import Pagination from '../../components/Common/Pagination';
 import SearchBar from '../../components/Common/SearchBar';
@@ -24,7 +24,7 @@ const ClassList = () => {
       setFilieres(filieresData);
       
       const data = filiereId 
-        ? await getClassesByFiliere(filiereId, currentPage, 10, searchTerm)
+        ? await getClassById(filiereId, currentPage, 10, searchTerm)
         : await getClasses(currentPage, 10, searchTerm);
         
       setClasses(data.classes);
@@ -113,11 +113,11 @@ const ClassList = () => {
                   <div className="text-sm font-medium text-gray-900">{cls.name}</div>
                   <div className="text-sm text-gray-500">Level: {cls.level}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cls.academicYear}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cls.academic_Year}</td>
                 {!filiereId && (
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link to={`/filieres/${cls.filiereId}`} className="text-est-blue hover:underline">
-                      {getFiliereName(cls.filiereId)}
+                    <Link to={`/filieres/${cls.filiere_Id}`} className="text-est-blue hover:underline">
+                      {getFiliereName(cls.filiere_Id)}
                     </Link>
                   </td>
                 )}

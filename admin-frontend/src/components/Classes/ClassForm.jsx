@@ -1,20 +1,18 @@
-// src/components/Filiere/FiliereForm.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getFiliereById, createFiliere, updateFiliere } from '../../services/filiereService';
-import { getTeachers } from '../../services/teacherService';
+import { getClassById, createClass, updateClass } from '../../services/classService';
+import { getFilieres } from '../../services/filiereService';
 
-const FiliereForm = () => {
-  const { id } = useParams();
+const ClassForm = () => {
+  const { filiere_id: filiereIdParam, code: codeParam } = useParams();
   const navigate = useNavigate();
-  const [teachers, setTeachers] = useState([]);
+  const [filieres, setFilieres] = useState([]);
   const [formData, setFormData] = useState({
+    filiere_id: '',
     code: '',
     name: '',
-    description: '',
-    duration: '',
-    coordinator_id: '',
-    status: 'active'
+    academic_year: '',
+    semester: ''
   });
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
@@ -22,18 +20,17 @@ const FiliereForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teachersData = await getTeachers();
-        setTeachers(teachersData);
+        const filieresData = await getFilieres();
+        setFilieres(filieresData);
         
-        if (id) {
-          const filiereData = await getFiliereById(id);
+        if (filiereIdParam && codeParam) {
+          const classData = await getClassById(filiereIdParam, codeParam);
           setFormData({
-            code: filiereData.code,
-            name: filiereData.name,
-            description: filiereData.description,
-            duration: filiereData.duration,
-            coordinator_id: filiereData.coordinator_id,
-            status: filiereData.status
+            filiere_id: classData.filiere_id,
+            code: classData.code,
+            name: classData.name,
+            academic_year: classData.academic_year || '',
+            semester: classData.semester || ''
           });
         }
       } catch (error) {
@@ -44,7 +41,7 @@ const FiliereForm = () => {
     };
     
     fetchData();
-  }, [id]);
+  }, [filiereIdParam, codeParam]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,24 +56,24 @@ const FiliereForm = () => {
     
     // Basic validation
     const newErrors = {};
+    if (!formData.filiere_id) newErrors.filiere_id = 'Filiere is required';
     if (!formData.code) newErrors.code = 'Code is required';
     if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.duration) newErrors.duration = 'Duration is required';
     
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
     
     try {
       setLoading(true);
-      if (id) {
-        await updateFiliere(id, formData);
+      if (filiereIdParam && codeParam) {
+        await updateClass(filiereIdParam, codeParam, formData);
       } else {
-        await createFiliere(formData);
+        await createClass(formData);
       }
-      navigate('/filieres');
+      navigate('/classes');
     } catch (error) {
-      console.error('Error saving filiere:', error);
-      setErrors({ submit: 'Failed to save filiere. Please try again.' });
+      console.error('Error saving class:', error);
+      setErrors({ submit: 'Failed to save class. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -89,7 +86,9 @@ const FiliereForm = () => {
   return (
     <div className="bg-white rounded-lg shadow mb-6">
       <div className="p-4 border-b">
-        <h2 className="font-semibold text-lg">{id ? 'Edit Filiere' : 'Add New Filiere'}</h2>
+        <h2 className="font-semibold text-lg">
+          {filiereIdParam && codeParam ? 'Edit Class' : 'Add New Class'}
+        </h2>
       </div>
       
       <div className="p-6">
@@ -102,6 +101,26 @@ const FiliereForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="filiere_id">
+                Filiere
+              </label>
+              <select
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.filiere_id ? 'border-red-500' : ''}`}
+                id="filiere_id"
+                name="filiere_id"
+                value={formData.filiere_id}
+                onChange={handleChange}
+                disabled={!!filiereIdParam}
+              >
+                <option value="">Select Filiere</option>
+                {filieres.map((filiere) => (
+                  <option key={filiere.id} value={filiere.id}>{filiere.name}</option>
+                ))}
+              </select>
+              {errors.filiere_id && <p className="text-red-500 text-xs italic">{errors.filiere_id}</p>}
+            </div>
+            
+            <div>
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="code">
                 Code
               </label>
@@ -112,11 +131,12 @@ const FiliereForm = () => {
                 type="text"
                 value={formData.code}
                 onChange={handleChange}
+                disabled={!!codeParam}
               />
               {errors.code && <p className="text-red-500 text-xs italic">{errors.code}</p>}
             </div>
             
-            <div>
+            <div className="md:col-span-2">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                 Name
               </label>
@@ -131,66 +151,39 @@ const FiliereForm = () => {
               {errors.name && <p className="text-red-500 text-xs italic">{errors.name}</p>}
             </div>
             
-            <div className="md:col-span-2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
-                Description
-              </label>
-              <textarea
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="description"
-                name="description"
-                rows="3"
-                value={formData.description}
-                onChange={handleChange}
-              />
-            </div>
-            
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="duration">
-                Duration
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="academic_year">
+                Academic Year
               </label>
               <input
-                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.duration ? 'border-red-500' : ''}`}
-                id="duration"
-                name="duration"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="academic_year"
+                name="academic_year"
                 type="text"
-                value={formData.duration}
+                value={formData.academic_year}
                 onChange={handleChange}
+                placeholder="e.g., 2023-2024"
               />
-              {errors.duration && <p className="text-red-500 text-xs italic">{errors.duration}</p>}
             </div>
             
             <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="coordinator_id">
-                Coordinator
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="semester">
+                Semester
               </label>
               <select
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="coordinator_id"
-                name="coordinator_id"
-                value={formData.coordinator_id}
+                id="semester"
+                name="semester"
+                value={formData.semester}
                 onChange={handleChange}
               >
-                <option value="">Select Coordinator</option>
-                {teachers.map((teacher) => (
-                  <option key={teacher.id} value={teacher.id}>{teacher.name}</option>
-                ))}
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="status">
-                Status
-              </label>
-              <select
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="">Select Semester</option>
+                <option value="S1">Semester 1</option>
+                <option value="S2">Semester 2</option>
+                <option value="S3">Semester 3</option>
+                <option value="S4">Semester 4</option>
+                <option value="S5">Semester 5</option>
+                <option value="S6">Semester 6</option>
               </select>
             </div>
           </div>
@@ -198,7 +191,7 @@ const FiliereForm = () => {
           <div className="mt-6 flex justify-end">
             <button
               type="button"
-              onClick={() => navigate('/filieres')}
+              onClick={() => navigate('/classes')}
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md mr-2 hover:bg-gray-300"
             >
               Cancel
@@ -217,4 +210,4 @@ const FiliereForm = () => {
   );
 };
 
-export default FiliereForm;
+export default ClassForm;

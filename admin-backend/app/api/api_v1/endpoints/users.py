@@ -9,7 +9,7 @@ from app.services.user import (
     update_user as service_update_user,
     delete_user as service_delete_user
 )
-from app.api.deps import get_current_active_user
+from app.api.deps import get_current_user
 
 router = APIRouter()
 
@@ -17,7 +17,7 @@ router = APIRouter()
 def read_users(
     skip: int = 0,
     limit: int = 100,
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_user)
 ):
     users = service_get_users(skip=skip, limit=limit)
     return users
@@ -25,14 +25,14 @@ def read_users(
 @router.post("/", response_model=UserInDB, status_code=201)
 def create_user(
     user: UserCreate,
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_user)
 ):
     return service_create_user(user)
 
 @router.get("/{user_id}", response_model=UserInDB)
 def read_user(
     user_id: UUID,
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_user)
 ):
     user = service_get_user(user_id)
     if not user:
@@ -43,7 +43,7 @@ def read_user(
 def update_user(
     user_id: UUID,
     user: UserUpdate,
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_user)
 ):
     db_user = service_get_user(user_id)
     if not db_user:
@@ -53,7 +53,7 @@ def update_user(
 @router.delete("/{user_id}")
 def delete_user(
     user_id: UUID,
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_user)
 ):
     db_user = service_get_user(user_id)
     if not db_user:

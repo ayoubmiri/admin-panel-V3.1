@@ -1,4 +1,5 @@
 fastapi
+fastapi-keycloak
 uvicorn
 cassandra-driver
 python-jose
@@ -10,3 +11,4 @@ pydantic-settings
 # cassandra-cqlengine
 python-keycloak==2.15.0
 httpx==0.23.3
+cryptography

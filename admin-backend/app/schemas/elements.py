@@ -17,5 +17,5 @@ class ElementSchema(BaseModel):
     name: str
     description: Optional[str] = None
 
-    class Config:
-        orm_mode = True
+    # class Config:
+    #     orm_mode = True

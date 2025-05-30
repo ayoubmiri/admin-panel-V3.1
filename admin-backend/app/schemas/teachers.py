@@ -24,3 +24,5 @@ class TeacherUpdate(BaseModel):
 
 class TeacherInDB(TeacherBase):
     id: UUID
+    # class Config:
+    #     from_attributes = True

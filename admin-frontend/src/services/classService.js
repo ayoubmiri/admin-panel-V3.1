@@ -1,19 +1,22 @@
 import api from './api';
 
-export const getClasses = async (page = 1, limit = 10, search = '', filiereId = '') => {
+export const getClasses = async (skip = 0, limit = 10, filiereId = '', search = '') => {
   try {
-    const response = await api.get('/classes', {
-      params: { page, limit, search, filiereId }
-    });
+    const params = { skip, limit, ...(search && { search }) };
+    if (filiereId) {
+      const response = await api.get(`/classes/filiere/${filiereId}`, { params });
+      return response.data;
+    }
+    const response = await api.get('/classes', { params });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getClassById = async (id) => {
+export const getClassById = async (filiereId, code) => {
   try {
-    const response = await api.get(`/classes/${id}`);
+    const response = await api.get(`/classes/${filiereId}/${code}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -29,27 +32,18 @@ export const createClass = async (classData) => {
   }
 };
 
-export const updateClass = async (id, classData) => {
+export const updateClass = async (filiereId, code, classData) => {
   try {
-    const response = await api.put(`/classes/${id}`, classData);
+    const response = await api.put(`/classes/${filiereId}/${code}`, classData);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const deleteClass = async (id) => {
+export const deleteClass = async (filiereId, code) => {
   try {
-    const response = await api.delete(`/classes/${id}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getClassesByFiliere = async (filiereId) => {
-  try {
-    const response = await api.get(`/filieres/${filiereId}/classes`);
+    const response = await api.delete(`/classes/${filiereId}/${code}`);
     return response.data;
   } catch (error) {
     throw error;

@@ -37,7 +37,9 @@ class Settings(BaseSettings):
     KEYCLOAK_CLIENT_ID: str
     KEYCLOAK_CLIENT_SECRET: str
     JWKS_URL: str
-    cqleng_allow_schema_management: bool
+    CQLENG_ALLOW_SCHEMA_MANAGEMENT: bool
+    SECRET_KEY: str
+    ALGORITHM: str
 
     # Parse CASSANDRA_HOSTS from JSON string env var
     @classmethod
@@ -54,5 +56,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        extra = "ignore"
 
 settings = Settings()

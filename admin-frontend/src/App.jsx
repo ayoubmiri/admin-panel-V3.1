@@ -17,10 +17,14 @@ import Courses from './components/Courses/Courses';
 import Schedule from './components/Schedule/Schedule';
 import Grades from './components/Grades/Grades';
 import Settings from './components/Settings/Settings';
-import Filiere from './components/Filiere/Filiere';
-import Module from './components/Module/Module';
+import Filieres from './components/Filiere/Filieres';
+import FiliereList from './components/Filiere/FiliereList';
+import FiliereForm from './components/Filiere/FiliereForm';
+import Classes from './components/Classes/Classes';
+import ClassList from './components/Classes/ClassList';
+import ClassForm from './components/Classes/ClassForm';
+import Modules from './components/Modules/Modules';
 import Element from './components/Element/Element';
-import Class from './components/Class/Class';
 import Controls from './components/Controls/Controls';
 import Exams from './components/Exams/Exams';
 import Assignments from './components/Assignments/Assignments';
@@ -40,14 +44,13 @@ function App() {
           <Route path="students" element={<Students />} />
           <Route path="teachers" element={<Teachers />} />
           <Route path="announcements" element={<Announcements />} />
-          <Route path="filiere" element={<Filiere />} />
-          <Route path="module" element={<Module />} />
+          <Route path="filieres" element={<Filieres />} />
+          <Route path="modules" element={<Modules />} />
           <Route path="element" element={<Element />} />
-          <Route path="class" element={<Class />} />
+          <Route path="classes" element={<Classes />} />
           <Route path="controls" element={<Controls />} />
           <Route path="exams" element={<Exams />} />
           <Route path="assignments" element={<Assignments />} />
-
           <Route path="courses" element={<Courses />} />
           <Route path="schedule" element={<Schedule />} />
           <Route path="grades" element={<Grades />} />
@@ -56,12 +59,37 @@ function App() {
           {/* nestedRoutes */}
           <Route path="announcements/list" element={<AnnouncementList />} />
           <Route path="announcements/new" element={<AnnouncementForm />} />
+          <Route path="announcements/:id" element={<AnnouncementForm />} />
+          <Route path="announcements/edit/:id" element={<AnnouncementForm />} />
 
           <Route path="teachers/list" element={<TeacherList />} />
           <Route path="teachers/new" element={<TeacherForm />} />
+          <Route path="teachers/:id" element={<TeacherForm />} />
+          <Route path="teachers/edit/:id" element={<TeacherForm />} />
+
+          
           
           <Route path="students/list" element={<StudentList />} />
           <Route path="students/new" element={<StudentForm />} />
+          <Route path="students/:id" element={<StudentForm />} />
+          <Route path="students/edit/:id" element={<StudentForm />} />
+
+          <Route path="filieres/list" element={<FiliereList />} />
+          <Route path="filieres/new" element={<FiliereForm />} />
+          <Route path="filieres/:id" element={<FiliereForm />} />
+          <Route path="filieres/edit/:id" element={<FiliereForm />} />
+
+          <Route path="modules/list" element={<Modules />} />
+          <Route path="modules/new" element={<Modules />} />
+          <Route path="modules/:id" element={<Modules />} />
+          <Route path="modules/edit/:id" element={<Modules />} />
+
+          <Route path="classes/list" element={<ClassList />} /> 
+          <Route path="classes/new" element={<ClassForm />} />
+          <Route path="classes/:id" element={<ClassForm />} />
+          <Route path="classes/edit/:id" element={<ClassForm />} />
+
+          {/* Catch-all route for 404 Not Found */}
 
           
 

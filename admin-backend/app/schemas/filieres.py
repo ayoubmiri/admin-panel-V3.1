@@ -27,3 +27,6 @@ class FiliereUpdate(BaseModel):
 
 class FiliereInDB(FiliereBase):
     id: UUID
+
+    class Config:
+        orm_mode = True

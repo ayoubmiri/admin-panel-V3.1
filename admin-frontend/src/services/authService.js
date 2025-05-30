@@ -4,7 +4,7 @@ import axios from 'axios';
 const KEYCLOAK_BASE_URL = process.env.REACT_APP_KEYCLOAK_BASE_URL || 'http://localhost:8080';
 const REALM = process.env.REACT_APP_KEYCLOAK_REALM || 'ent_est-realm';
 const CLIENT_ID = process.env.REACT_APP_KEYCLOAK_CLIENT_ID || 'ent_est-client';
-const CLIENT_SECRET = process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET || 'your-client-secret';
+const CLIENT_SECRET = process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET || 'gZA4j6vLFk6YQcWIme7KvThJBJCPCYwC';
 
 // Keycloak token endpoint
 const TOKEN_URL = `${KEYCLOAK_BASE_URL}/realms/${REALM}/protocol/openid-connect/token`;

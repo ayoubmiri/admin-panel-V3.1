@@ -3,8 +3,7 @@ from app.schemas.elements import ElementSchema, ElementCreateSchema, ElementUpda
 from app.services import elements as service
 from typing import List
 
-router = APIRouter(prefix="/elements", tags=["Elements"])
-
+router = APIRouter()
 @router.post("/", response_model=ElementSchema)
 def create_element(data: ElementCreateSchema):
     return service.create_element_service(data)

@@ -6,11 +6,6 @@ from app.database.models import Student, Filiere,Teacher,Module,Announcement,Ele
 from dotenv import load_dotenv
 from app.api.api_v1.api_v1 import api_router
 
-from app.api.api_v1.endpoints import (
-    auth, students, teachers, filieres,
-    modules, classes, courses,elements,assignments,
-    announcements, schedule, grades, users
-)
 
 app = FastAPI(
     title="EST Salé Admin API",
@@ -49,22 +44,6 @@ async def startup_db_client():
 
  # Include routers
 app.include_router(api_router, prefix="/api/v1", tags=["API v1"])
-
-# app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
-# app.include_router(students.router, prefix="/students", tags=["Students"])
-# app.include_router(teachers.router, prefix="/teachers", tags=["Teachers"])
-# app.include_router(filieres.router, prefix="/filieres", tags=["Filieres"])
-# app.include_router(modules.router, prefix="/modules", tags=["Modules"])
-# app.include_router(elements.router, prefix="/elements", tags=["Elements"])
-# app.include_router(assignments.router, prefix="/assignments", tags=["Assignments"])
-
-# app.include_router(classes.router, prefix="/classes", tags=["Classes"])
-# app.include_router(controls.router, prefix="/controls", tags=["Controls"])
-# app.include_router(courses.router, prefix="/courses", tags=["Courses"])
-# app.include_router(announcements.router, prefix="/announcements", tags=["Announcements"])
-# app.include_router(schedule.router, prefix="/schedule", tags=["Schedule"])
-# app.include_router(grades.router, prefix="/grades", tags=["Grades"])
-# app.include_router(users.router, prefix="/users", tags=["Users"])
 
 @app.get("/")
 async def root():
