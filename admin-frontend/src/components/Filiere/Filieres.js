@@ -1,27 +1,42 @@
-// src/components/Filiere/Filiere.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaPlus, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 import { getFilieres } from '../../services/filiereService';
+import { getTeachers } from '../../services/teacherService'; // Import getTeachers
 
 const Filiere = () => {
   const [filieres, setFilieres] = useState([]);
+  const [teachers, setTeachers] = useState([]); // State for teachers
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const fetchFilieres = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getFilieres(searchTerm);
-        setFilieres(data);
+        // Fetch filieres
+        const filiereData = await getFilieres(searchTerm);
+        // Fetch teachers
+        const teacherData = await getTeachers();
+        const validTeachers = Array.isArray(teacherData)
+          ? teacherData.filter(teacher => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(teacher.id))
+          : [];
+        setTeachers(validTeachers);
+
+        // Map teacher names to filieres
+        const filieresWithCoordinator = filiereData.map(filiere => ({
+          ...filiere,
+          coordinator: validTeachers.find(teacher => teacher.id === filiere.coordinator_id) || { name: 'Not assigned' }
+        }));
+
+        setFilieres(filieresWithCoordinator);
       } catch (error) {
-        console.error('Error fetching filieres:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFilieres();
+    fetchData();
   }, [searchTerm]);
 
   const handleSearch = (e) => {
@@ -36,7 +51,7 @@ const Filiere = () => {
           <div className="relative">
             <input
               type="text"
-              placeholder="Search filieres..."
+              placeholder="Search filieres or coordinators..."
               className="pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -54,6 +69,8 @@ const Filiere = () => {
 
       {loading ? (
         <div className="p-8 text-center">Loading filieres...</div>
+      ) : filieres.length === 0 ? (
+        <div className="p-8 text-center">No filieres found.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -77,7 +94,9 @@ const Filiere = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{filiere.duration}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {filiere.coordinator?.name || 'Not assigned'}
+                    {filiere.coordinator?.name || filiere.coordinator?.first_name
+                      ? `${filiere.coordinator.first_name || ''} ${filiere.coordinator.last_name || ''}`.trim()
+                      : 'Not assigned'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${

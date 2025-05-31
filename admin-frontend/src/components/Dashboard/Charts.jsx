@@ -137,7 +137,7 @@ const Charts = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
       {/* Students Chart */}
       <div className="bg-white rounded-lg shadow p-4">
-        <h3 className="font-semibold mb-4 text-gray-800">Enrollment by Program</h3>
+        <h3 className="font-semibold mb-4 text-gray-800">Enrollment by Filieres</h3>
         <canvas ref={studentsChartRef} height="250"></canvas>
       </div>
       

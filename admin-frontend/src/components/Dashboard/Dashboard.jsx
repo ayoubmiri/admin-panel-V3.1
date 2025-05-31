@@ -2,8 +2,8 @@ import React from 'react';
 import StatsCards from './StatsCards';
 import Charts from './Charts';
 import RecentStudents from './RecentStudents';
-import UpcomingEvents from './UpcomingEvents';
-import RecentAnnouncements from './RecentAnnouncements';
+// import UpcomingEvents from './UpcomingEvents';
+// import RecentAnnouncements from './RecentAnnouncements';
 
 const Dashboard = () => {
   return (
@@ -22,12 +22,12 @@ const Dashboard = () => {
           <RecentStudents />
         </div>
         <div>
-          <UpcomingEvents />
+          {/* <UpcomingEvents /> */}
         </div>
       </div>
 
       {/* Recent Announcements */}
-      <RecentAnnouncements />
+      {/* <RecentAnnouncements /> */}
     </div>
   );
 };

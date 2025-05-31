@@ -24,10 +24,13 @@ import Classes from './components/Classes/Classes';
 import ClassList from './components/Classes/ClassList';
 import ClassForm from './components/Classes/ClassForm';
 import Modules from './components/Modules/Modules';
-import Element from './components/Element/Element';
+import ModuleForm from './components/Modules/ModuleForm';
+import ModuleList from './components/Modules/ModuleList';
+import Element from './components/Elements/Element';
 import Controls from './components/Controls/Controls';
 import Exams from './components/Exams/Exams';
 import Assignments from './components/Assignments/Assignments';
+import ElementForm from './components/Elements/ElementForm';
 
 function App() {
  return (
@@ -46,7 +49,7 @@ function App() {
           <Route path="announcements" element={<Announcements />} />
           <Route path="filieres" element={<Filieres />} />
           <Route path="modules" element={<Modules />} />
-          <Route path="element" element={<Element />} />
+          <Route path="elements" element={<Element />} />
           <Route path="classes" element={<Classes />} />
           <Route path="controls" element={<Controls />} />
           <Route path="exams" element={<Exams />} />
@@ -67,7 +70,10 @@ function App() {
           <Route path="teachers/:id" element={<TeacherForm />} />
           <Route path="teachers/edit/:id" element={<TeacherForm />} />
 
-          
+          <Route path="elements/list" element={<Element />} />
+          <Route path="elements/new" element={<ElementForm />} />
+          <Route path="elements/:id" element={<ElementForm />} />
+          <Route path="elements/edit/:id" element={<ElementForm />} />
           
           <Route path="students/list" element={<StudentList />} />
           <Route path="students/new" element={<StudentForm />} />
@@ -79,10 +85,10 @@ function App() {
           <Route path="filieres/:id" element={<FiliereForm />} />
           <Route path="filieres/edit/:id" element={<FiliereForm />} />
 
-          <Route path="modules/list" element={<Modules />} />
-          <Route path="modules/new" element={<Modules />} />
-          <Route path="modules/:id" element={<Modules />} />
-          <Route path="modules/edit/:id" element={<Modules />} />
+          <Route path="modules/list" element={<ModuleList />} />
+          <Route path="modules/new" element={<ModuleForm />} />
+          <Route path="modules/:id" element={<ModuleForm />} />
+          <Route path="modules/edit/:id" element={<ModuleForm />} />
 
           <Route path="classes/list" element={<ClassList />} /> 
           <Route path="classes/new" element={<ClassForm />} />

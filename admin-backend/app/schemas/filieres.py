@@ -6,6 +6,7 @@ from datetime import date
 class FiliereBase(BaseModel):
     code: str
     name: str
+    coordinator_id: Optional[UUID] = None
     description: Optional[str] = None
     duration: Optional[str] = None
     status: Optional[str] = 'active'
@@ -18,15 +19,16 @@ class FiliereCreate(FiliereBase):
 
 class FiliereUpdate(BaseModel):
     name: Optional[str]
+    coordinator_id: Optional[UUID]
     description: Optional[str]
     duration: Optional[str]
     status: Optional[str]
-    version: Optional[int]
-    valid_from: Optional[date]
-    valid_to: Optional[date]
+    version: Optional[int] = None
+    valid_from: Optional[date] = None
+    valid_to: Optional[date] = None
 
 class FiliereInDB(FiliereBase):
     id: UUID
 
-    class Config:
-        orm_mode = True
+    # class Config:
+    #     orm_mode = True

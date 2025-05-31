@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.api.api_v1.endpoints import( auth, students,dashboard, 
                     teachers,filieres,modules,controls,assignments,
                     classes,elements,users,grades,
-                    announcements,schedule,courses)
+                    announcements,schedule)
 
 
 api_router = APIRouter()

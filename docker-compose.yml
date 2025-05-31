@@ -51,23 +51,7 @@ services:
       retries: 5
 
 
-  # cassandra:
-  #   image: cassandra:5.0.4
-  #   container_name: admin-cassandra
-  #   ports:
-  #     - 9043:9042
-  #   volumes:
-  #     - cassandra_data:/var/lib/cassandra
-  #   environment:
-  #     - CASSANDRA_CLUSTER_NAME=admin-Cluster
-  #     - CASSANDRA_DC=dc2
-  #   networks:
-  #     - est-network
-  #   healthcheck:
-  #     test: ["CMD", "cqlsh", "-u", "cassandra", "-p", "cassandra", "-e", "DESCRIBE KEYSPACES"]
-  #     interval: 40s
-  #     timeout: 50s
-  #     retries: 5
+
 
 networks:
   est-network:

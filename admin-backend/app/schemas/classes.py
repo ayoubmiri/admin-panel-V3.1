@@ -14,7 +14,6 @@ class ClassCreateSchema(ClassBase):
 
 class ClassUpdateSchema(ClassBase):
     filiere_id: Optional[UUID]
-    code: Optional[str]
     name: Optional[str]
     academic_year: Optional[str]
     semester: Optional[str]

@@ -50,6 +50,7 @@ class Filiere(BaseModel):
     name = columns.Text(required=True)
     description = columns.Text()
     duration = columns.Text()
+    coordinator_id = columns.UUID()
     status = columns.Text(default='active')
     version = columns.Integer()
     valid_from = columns.Date()
@@ -62,7 +63,9 @@ class Module(BaseModel):
     code = columns.Text(required=True, index=True)
     name = columns.Text(required=True)
     description = columns.Text()
+    status = columns.Text(default='active')
     version = columns.Integer()
+    semester = columns.Text()
     valid_from = columns.Date()
     valid_to = columns.Date()
 
@@ -73,12 +76,13 @@ class Element(BaseModel):
     code = columns.Text(required=True, index=True)
     name = columns.Text(required=True)
     description = columns.Text()
+    semester = columns.Text()
 
 # Class table
 class Class(BaseModel):
     __table_name__ = 'classes'
     filiere_id = columns.UUID(required=True)
-    code = columns.Text(required=True)
+    code = columns.Text(required=True, index=True)
     name = columns.Text(required=True)
     academic_year = columns.Text()
     semester = columns.Text()
