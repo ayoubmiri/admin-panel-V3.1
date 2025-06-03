@@ -33,6 +33,8 @@ class User(BaseModel):
     hashed_password = columns.Text(required=True)
     disabled = columns.Boolean(default=False)
 
+
+
 # Audit log table
 class AuditLog(Model):
     __table_name__ = 'audit_log'

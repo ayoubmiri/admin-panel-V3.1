@@ -24,8 +24,8 @@ class ClassSchema(ClassBase):
 class ClassInDB(ClassBase):
     id: UUID
 
-    class Config:
-        orm_mode = True
+    # class Config:
+    #     orm_mode = True
 
 
 

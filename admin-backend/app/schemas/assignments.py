@@ -19,5 +19,6 @@ class TeacherElementAssignmentUpdate(BaseModel):
     # other fields can be included if needed
 
 class TeacherElementAssignmentSchema(TeacherElementAssignmentBase):
-    class Config:
-        orm_mode = True
+    pass
+    # class Config:
+    #     orm_mode = True

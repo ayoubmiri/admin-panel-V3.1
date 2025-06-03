@@ -21,7 +21,7 @@
 # settings = Settings()
 
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Optional
 import json
 
 class Settings(BaseSettings):
@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     KEYCLOAK_CLIENT_SECRET: str
     JWKS_URL: str
     CQLENG_ALLOW_SCHEMA_MANAGEMENT: bool
-    SECRET_KEY: str
+    SECRET_KEY: Optional[str] = None  # Make optional for RS256
     ALGORITHM: str
 
     # Parse CASSANDRA_HOSTS from JSON string env var
