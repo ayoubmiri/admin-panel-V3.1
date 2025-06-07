@@ -15,12 +15,13 @@ class TeacherCreate(TeacherBase):
     pass
 
 class TeacherUpdate(BaseModel):
-    first_name: Optional[str]
-    last_name: Optional[str]
-    email: Optional[EmailStr]
-    phone: Optional[str]
-    specialization: Optional[str]
-    status: Optional[str]
+    teacher_id: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    specialization: Optional[str] = None
+    status: Optional[str] = None
 
 class TeacherInDB(TeacherBase):
     id: UUID
