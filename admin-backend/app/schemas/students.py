@@ -42,3 +42,59 @@ class StudentInDB(StudentBase):
 
     # class Config:
     #     orm_mode = True
+
+
+
+
+
+
+# from pydantic import BaseModel, EmailStr
+# from typing import Optional
+# from uuid import UUID
+# from datetime import date, datetime
+
+# class StudentCreate(BaseModel):
+#     student_id: Optional[str] = None
+#     first_name: str
+#     last_name: str
+#     email: EmailStr
+#     phone: Optional[str] = None
+#     filiere_id: Optional[UUID] = None
+#     class_id: Optional[str] = None
+#     student_type: Optional[str] = None
+#     year: Optional[str] = None
+#     status: Optional[str] = None
+#     address: Optional[str] = None
+#     date_of_birth: Optional[date] = None
+#     password: Optional[str] = None
+
+# class StudentUpdate(BaseModel):
+#     first_name: Optional[str] = None
+#     last_name: Optional[str] = None
+#     email: Optional[EmailStr] = None
+#     phone: Optional[str] = None
+#     filiere_id: Optional[UUID] = None
+#     class_id: Optional[str] = None
+#     student_type: Optional[str] = None
+#     year: Optional[str] = None
+#     status: Optional[str] = None
+#     address: Optional[str] = None
+#     date_of_birth: Optional[date] = None
+
+# class StudentInDB(BaseModel):
+#     id: UUID
+#     student_id: str
+#     first_name: str
+#     last_name: str
+#     email: EmailStr
+#     phone: Optional[str]
+#     filiere_id: Optional[UUID]
+#     class_id: Optional[str]
+#     student_type: Optional[str]
+#     year: Optional[str]
+#     status: Optional[str]
+#     address: Optional[str]
+#     date_of_birth: Optional[date]
+#     created_at: datetime
+#     updated_at: datetime
+#     temporary_password: Optional[str] = None

@@ -21,35 +21,12 @@
 
 
 
-# # dependencies/auth.py
-# import httpx
-# from fastapi import Request, HTTPException, Depends
-# from starlette.status import HTTP_401_UNAUTHORIZED
-
-# AUTH_SERVICE_URL = "http://host.docker.internal:8000/verify-token"  # service name from Docker
-
-# async def get_current_user(request: Request):
-#     token = request.headers.get("Authorization")
-#     if not token:
-#         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Missing token")
-
-#     try:
-#         async with httpx.AsyncClient() as client:
-#             response = await client.post(
-#                 AUTH_SERVICE_URL,
-#                 headers={"Authorization": token}
-#             )
-#         if response.status_code != 200:
-#             raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Invalid token")
-
-#         return response.json()
-#     except httpx.HTTPError as e:
-#         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail=f"Auth service error: {str(e)}")
 
 
 
 import httpx
-from fastapi import Request, HTTPException, Depends
+from fastapi import Request, HTTPException, Depends, status
+from fastapi.security import OAuth2PasswordBearer
 from starlette.status import HTTP_401_UNAUTHORIZED
 import os
 from dotenv import load_dotenv
@@ -74,3 +51,6 @@ async def get_current_user(request: Request):
         return response.json()
     except httpx.HTTPError as e:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail=f"Auth service error: {str(e)}")
+    
+
+

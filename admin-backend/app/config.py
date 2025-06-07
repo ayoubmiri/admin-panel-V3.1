@@ -36,10 +36,14 @@ class Settings(BaseSettings):
     KEYCLOAK_REALM: str
     KEYCLOAK_CLIENT_ID: str
     KEYCLOAK_CLIENT_SECRET: str
+    KEYCLOAK_ADMIN_USER: str
+    KEYCLOAK_ADMIN_PASSWORD: str
     JWKS_URL: str
     CQLENG_ALLOW_SCHEMA_MANAGEMENT: bool
     SECRET_KEY: Optional[str] = None  # Make optional for RS256
     ALGORITHM: str
+    ##################
+    CALLBACK_URI: str
 
     # Parse CASSANDRA_HOSTS from JSON string env var
     @classmethod
@@ -56,6 +60,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        env_file_encoding = "utf-8"
         extra = "ignore"
 
 settings = Settings()

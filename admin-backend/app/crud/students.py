@@ -79,4 +79,3 @@ def delete_student(student_id: UUID) -> bool:
     except Exception as e:
         logger.exception(f"Failed to delete student: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to delete student: {str(e)}")
-

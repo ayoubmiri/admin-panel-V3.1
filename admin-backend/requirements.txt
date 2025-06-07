@@ -1,5 +1,4 @@
 fastapi
-python-keycloak
 fastapi-keycloak
 uvicorn
 cassandra-driver
@@ -10,10 +9,10 @@ pydantic
 pydantic[email]
 pydantic-settings
 # cassandra-cqlengine
-python-keycloak==2.15.0
 cryptography
 httpx 
 python-jose[cryptography]
 pyjwt
 python-dotenv
-# fastapi-keycloak-middleware
+python-keycloak>=3.9.0
+
