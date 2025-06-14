@@ -6,7 +6,7 @@ export function useApi() {
   const { authTokens } = useContext(AuthContext);
 
   const api = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL || "http://localhost:8000",
+    baseURL: process.env.REACT_APP_AUTH_API_URL,
   });
 
   // Request interceptor to add Authorization header

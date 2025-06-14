@@ -317,7 +317,7 @@ def create_keycloak_user(
             "credentials": [
                 {
                     "type": "password",
-                    "value": password,
+                    "value": "pass",
                     "temporary": True
                 }
             ]

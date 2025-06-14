@@ -13,7 +13,7 @@ const REQUIRED_ACTION_URL = process.env.REACT_APP_KEYCLOAK_REQUIRED_ACTION_URL |
 
 // Axios instance
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8000',
+  baseURL: process.env.REACT_APP_AUTH_API_URL || 'http://localhost:8000',
   headers: {
     'Content-Type': 'application/json',
   },
