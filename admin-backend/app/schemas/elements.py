@@ -10,7 +10,7 @@ class ElementBase(BaseModel):
     description: Optional[str] = None
     semester: Optional[str] = None
     status: Optional[str] = 'active'
-    version: Optional[int] = 1
+    # version: Optional[int] = 1
 
 
 class ElementCreateSchema(ElementBase):

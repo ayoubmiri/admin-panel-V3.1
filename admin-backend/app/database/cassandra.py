@@ -455,6 +455,7 @@ SCHEMA_TABLES = [
         name text,
         semester text,
         description text,
+        status text,
         created_at timestamp,
         updated_at timestamp
     )

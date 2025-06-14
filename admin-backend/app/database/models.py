@@ -78,6 +78,7 @@ class Element(BaseModel):
     code = columns.Text(required=True, index=True)
     name = columns.Text(required=True)
     description = columns.Text()
+    status = columns.Text(default='active')
     semester = columns.Text()
 
 # Class table
