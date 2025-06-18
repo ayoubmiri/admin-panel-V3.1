@@ -1,25 +1,3 @@
-# # # # # # # # # from cassandra.cluster import Session
-# # # # # # # # # from app.database.cassandra import get_session
-# # # # # # # # # from app.database.models import User
-# # # # # # # # # from typing import Generator
-
-# # # # # # # # # def get_db() -> Generator[Session, None, None]:
-# # # # # # # # #     session = get_session()
-# # # # # # # # #     try:
-# # # # # # # # #         yield session
-# # # # # # # # #     finally:
-# # # # # # # # #         pass  # Connection cleanup handled elsewhere
-
-# # # # # # # # # # ⛔ Ignore actual JWT and Keycloak validation
-# # # # # # # # # def get_current_user() -> User:
-# # # # # # # # #     return User(
-# # # # # # # # #         username="admin1",
-# # # # # # # # #         email="testuser@example.com",
-# # # # # # # # #         full_name="Test User",
-# # # # # # # # #         roles=["admin"],
-# # # # # # # # #     )
-
-
 
 
 

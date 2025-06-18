@@ -77,6 +77,7 @@ class Element(BaseModel):
     module_id = columns.UUID(required=True)
     code = columns.Text(required=True, index=True)
     name = columns.Text(required=True)
+    teacher_id = columns.UUID()
     description = columns.Text()
     status = columns.Text(default='active')
     semester = columns.Text()
