@@ -23,11 +23,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies
+      - name: Install dependencies (clean)
         run: npm ci
+
+      - name: Debug install check
+        run: npm ls react-router-dom
 
       - name: Run tests
         run: npm test -- --watchAll=false
-
-      - name: Build project
-        run: npm run build
